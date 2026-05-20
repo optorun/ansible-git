@@ -1,0 +1,23 @@
+---
+
+galaxy_info:
+  role_name: ansible-git
+  author: Pierre TOURON
+  description: Clone and update Git repositories on managed hosts
+
+  license: MIT
+
+  min_ansible_version: "2.1"
+
+  platforms:
+    - name: Debian
+      versions:
+        - bullseye
+        - bookworm
+    - name: EL
+      versions:
+        - "8"
+
+collections: []
+
+dependencies: []

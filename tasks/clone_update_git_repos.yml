@@ -1,0 +1,14 @@
+---
+
+- name: Clone / update git repositories
+  ansible.builtin.git:
+    repo: "{{ item.baseUrl }}/{{ item.name }}.git"
+    version: "{{ item.version }}"
+    dest: "{{ item.destBasePath }}/{{ item.name }}"
+    refspec: "{{ item.refspec|d(omit) }}"
+    accept_hostkey: true
+  loop: >-
+    {{
+      (ansible_git_repos_common|d([]) + ansible_git_repos|d([])) | selectattr('name', 'in', ansible_git_repos_filter) if ansible_git_repos_filter|d([]) | length > 0
+      else ansible_git_repos_common|d([]) + ansible_git_repos|d([])
+    }}

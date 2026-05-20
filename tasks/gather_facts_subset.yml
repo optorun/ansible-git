@@ -1,0 +1,7 @@
+---
+
+- name: Gather necessary facts and/or variables
+  ansible.builtin.setup:
+    filter:
+      - ansible_os_family
+      - ansible_env

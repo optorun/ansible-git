@@ -1,0 +1,33 @@
+---
+
+# Pre-commit framework manifest. Install with `pip install pre-commit` or through distrib package manager (probably not up to date though)
+# Install new hooks with `pre-commit install`
+# Update hooks revs with `pre-commit autoupdate`; if unsure, set 'latest' and run this command to grab the last one
+# Manually run with `pre-commit run --all-files [<hookId>]`
+# Hooks can temporarily be disabled with envvar SKIP : `SKIP=<hookId> git commit -m "<message>"` Also works with `pre-commit run`
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-json
+      - id: check-symlinks
+      - id: detect-private-key
+
+  - repo: https://github.com/IamTheFij/ansible-pre-commit.git
+    rev: v1.0.1
+    hooks:
+      - id: encryption-check
+        files: ((?:^|\/)vault|vault\.ya?ml$|\.vault$|\.secret$)
+
+  - repo: https://github.com/ansible-community/ansible-lint.git
+    rev: v26.4.0
+    hooks:
+      - id: ansible-lint
+        args: [-c=.ansible-lint]
+        always_run: false
+        files: \.ya?ml$
+        types: [file, yaml]
+        language_version: python3.11

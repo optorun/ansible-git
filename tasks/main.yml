@@ -1,0 +1,12 @@
+---
+
+- name: "[IMPORT] Import tasks \"gather_facts_subset.yml\""
+  ansible.builtin.import_tasks: gather_facts_subset.yml
+
+- name: "[IMPORT] Include tasks \"tasks/setup_git_package.yml\""
+  ansible.builtin.import_tasks: tasks/setup_git_package.yml
+  tags:
+    - preflightchecks
+
+- name: "[IMPORT] Include tasks \"clone_update_git_repos.yml\""
+  ansible.builtin.import_tasks: clone_update_git_repos.yml

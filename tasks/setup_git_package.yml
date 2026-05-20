@@ -1,0 +1,7 @@
+---
+
+- name: Ensure git is installed
+  ansible.builtin.package:
+    name: git
+    state: present
+  when: ansible_os_family in ['RedHat','Debian']
