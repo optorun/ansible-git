@@ -1,7 +1,8 @@
 ---
 
 galaxy_info:
-  role_name: ansible-git
+  role_name: ansible_git
+  namespace: ptn
   author: Pierre TOURON
   description: Clone and update Git repositories on managed hosts
 
