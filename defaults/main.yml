@@ -1,16 +1,6 @@
 ---
 
-# List of git repositories that must be present and up to date (assuming there are no local changes) on managed nodes
-# Format for one entry:
-#  - name: dummy_repo
-#    version: main
-#    baseUrl: git@github.com:dummy_user
-#    destBasePath: "{{ ansible_env.HOME }}"
-#    refspec: "+my_spec:my_spec # https://git-scm.com/book/en/v2/Git-Internals-The-Refspec
-# There are two lists available, which are merged on run. Useful for instance to have one common in group_vars and another specific for each host
-ansible_git_repos_common: []
-ansible_git_repos: []
+ansible_git_repositories_common: []
+ansible_git_repositories: []
 
-# Filtered list of of git repositories
-# Make it possible to select specific repos from the whole list
-ansible_git_repos_filter: null
+ansible_git_repositories_filter: null

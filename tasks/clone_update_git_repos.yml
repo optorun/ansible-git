@@ -2,23 +2,23 @@
 
 - name: Ensure repositories clone paths exists
   ansible.builtin.file:
-    path: "{{ item.destBasePath }}"
+    path: "{{ (item.repoDestPath | dirname | d(ansible_env.HOME)) | expanduser }}"
     state: directory
   loop: >-
     {{
-      (ansible_git_repos_common|d([]) + ansible_git_repos|d([])) | selectattr('name', 'match', ansible_git_repos_filter) if ansible_git_repos_filter|d('') | length > 0
-      else ansible_git_repos_common|d([]) + ansible_git_repos|d([])
+      (ansible_git_repositories_common|d([]) + ansible_git_repositories|d([])) | selectattr('repoUrl', 'search', ansible_git_repositories_filter) if ansible_git_repositories_filter|d(null)
+      else ansible_git_repositories_common|d([]) + ansible_git_repositories|d([])
     }}
 
 - name: Clone / update git repositories
   ansible.builtin.git:
-    repo: "{{ item.baseUrl }}/{{ item.name }}.git"
-    version: "{{ item.version }}"
-    dest: "{{ item.destBasePath }}/{{ item.name }}"
-    refspec: "{{ item.refspec|d(omit) }}"
+    repo: "{{ item.repoUrl }}"
+    version: "{{ item.repoRevision | d('main') }}"
+    dest: "{{ (item.repoDestPath | d(ansible_env.HOME ~ '/' ~ (item.repoUrl | basename | regex_replace('\\.git$', '')))) | expanduser }}"
+    refspec: "{{ item.repoRefspec | d(omit) }}"
     accept_hostkey: true
   loop: >-
     {{
-      (ansible_git_repos_common|d([]) + ansible_git_repos|d([])) | selectattr('name', 'match', ansible_git_repos_filter) if ansible_git_repos_filter|d('') | length > 0
-      else ansible_git_repos_common|d([]) + ansible_git_repos|d([])
+      (ansible_git_repositories_common|d([]) + ansible_git_repositories|d([])) | selectattr('repoUrl', 'search', ansible_git_repositories_filter) if ansible_git_repositories_filter|d(null)
+      else ansible_git_repositories_common|d([]) + ansible_git_repositories|d([])
     }}

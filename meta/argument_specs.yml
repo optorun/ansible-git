@@ -1,0 +1,77 @@
+---
+
+argument_specs:
+  main:
+    short_description: Clone and update Git repositories on managed hosts
+    description:
+      - Install git package (Debian and RHEL-based systems). To skip, `--skip-tags preflightchecks`
+      - Clone git repositories from specified url and optional parameters (revision, refspec) on a local path (defaults to `$HOME/$repoName`)
+      - If local clone exists, it will be updated to specified (optional) parameters
+      - Variable `ansible_git_repositories_filter` can be used to filter repositories to process
+
+    options:
+      ansible_git_repositories_common:
+        description: |
+          List of git repositories to clone on managed nodes. If already present, clones will be updated to specified references
+          There are two lists available, which are merged on run. Useful for instance to have one common in group_vars and another specific for each host
+          This one is intended to be the common list
+        type: list
+        elements: dict
+        required: false
+        default: []
+        options:
+          repoUrl:
+            description: Git repository URL
+            type: str
+            required: true
+          repoRevision:
+            description: Git repository revision; could be a branch, tag or commit
+            type: str
+            required: false
+            default: main
+          repoRefspec:
+            description: Git repository custom refspec (https://git-scm.com/book/en/v2/Git-Internals-The-Refspec)
+            type: str
+            required: false
+            default: null
+          repoDestPath:
+            description: Full path to clone the repository to
+            type: str
+            required: false
+            default: /home/$user
+
+      ansible_git_repositories:
+        description: |
+          List of git repositories to clone on managed nodes. If already present, clones will be updated to specified references
+          There are two lists available, which are merged on run. Useful for instance to have one common in group_vars and another specific for each host
+          This one is intended to be a more specific list
+        type: list
+        elements: dict
+        required: false
+        default: []
+        options:
+          repoUrl:
+            description: Git repository URL
+            type: str
+            required: true
+          repoRevision:
+            description: Git repository revision; could be a branch, tag or commit
+            type: str
+            required: false
+            default: main
+          repoRefspec:
+            description: Git repository custom refspec (https://git-scm.com/book/en/v2/Git-Internals-The-Refspec)
+            type: str
+            required: false
+            default: null
+          repoDestPath:
+            description: Full path to clone the repository to
+            type: str
+            required: false
+            default: /home/$user
+
+      ansible_git_repositories_filter:
+        description: Filter to git repositories to process. Supports regex
+        type: str
+        required: false
+        default: null
