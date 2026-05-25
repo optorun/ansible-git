@@ -13,4 +13,4 @@ ansible_git_repos: []
 
 # Filtered list of of git repositories
 # Make it possible to select specific repos from the whole list
-ansible_git_repos_filter: []
+ansible_git_repos_filter: null

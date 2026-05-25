@@ -6,7 +6,7 @@
     state: directory
   loop: >-
     {{
-      (ansible_git_repos_common|d([]) + ansible_git_repos|d([])) | selectattr('name', 'in', ansible_git_repos_filter) if ansible_git_repos_filter|d([]) | length > 0
+      (ansible_git_repos_common|d([]) + ansible_git_repos|d([])) | selectattr('name', 'match', ansible_git_repos_filter) if ansible_git_repos_filter|d('') | length > 0
       else ansible_git_repos_common|d([]) + ansible_git_repos|d([])
     }}
 
@@ -19,6 +19,6 @@
     accept_hostkey: true
   loop: >-
     {{
-      (ansible_git_repos_common|d([]) + ansible_git_repos|d([])) | selectattr('name', 'in', ansible_git_repos_filter) if ansible_git_repos_filter|d([]) | length > 0
+      (ansible_git_repos_common|d([]) + ansible_git_repos|d([])) | selectattr('name', 'match', ansible_git_repos_filter) if ansible_git_repos_filter|d('') | length > 0
       else ansible_git_repos_common|d([]) + ansible_git_repos|d([])
     }}
